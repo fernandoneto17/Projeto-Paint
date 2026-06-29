@@ -1,3 +1,4 @@
+# Este arquivo contém, além da tarefa de cor de preenchimento, todas as tarefas anteriores. Caso queira testar se todas as funcionabilidades funcionam em conjunto, teste este arquivo.
 from tkinter import *
 from tkinter import ttk
 
