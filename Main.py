@@ -1,6 +1,6 @@
 from tkinter import *
-from classe_InterfaceGráfica import InterfaceGrafica
-from Executor import Executor  
+from interface_grafica import InterfaceGrafica
+from executor import Executor  
 
 def main():
     #Criamos a janela principal (a raiz do Tkinter):
