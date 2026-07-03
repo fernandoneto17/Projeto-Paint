@@ -17,3 +17,6 @@ class Figura(ABC):
     def atualizar(self):
         pass
 
+    @abstractmethod
+    def verificarFig(self):
+        pass
