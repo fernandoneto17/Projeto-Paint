@@ -1,53 +1,33 @@
-# Exercício: desenhar círculos.
-#  O centro é a posição onde o mouse foi clicado
-#  O raio é definido pela distância entre o centro e a posição atual do mouse
-
+from figura import Figura
 from tkinter import *
 
-# Quando o mouse é pressionado
-def inicia_linha(event):
-    global ini_x, ini_y
-    ini_x = event.x
-    ini_y = event.y
+# Essa classe servirá de molde para os círculos que desenharmos
+class Circulo(Figura):
 
-# Quando o mouse é movido com o botão pressionado
-def atualiza_linha(event):
-    global fim_x, fim_y, raio
-    fim_x = event.x
-    fim_y = event.y
-    desenhar()
-    raio = ( (ini_x - fim_x)**2 + (ini_y - fim_y)**2 ) ** 0.5
-    canvas.create_oval(ini_x-raio, ini_y-raio, ini_x+raio, ini_y+raio)
+    def __init__(self, coordenadas, corBorda, corPreenchimento, dash):
+        super().__init__(coordenadas, corBorda, corPreenchimento, dash)
+    
+        # Os itens indicados pelos indices 0,1,2,3 da lista coordenadas serao respectivamente x inicial,y inicial, x final, y final
+        # Então iremos declarar novas variaveis para melhorar legibilidade
 
-# Quando o mouse é solto
-def incluir_linha(event):
-    circulos.append((ini_x, ini_y, raio))
+        self.ini_x = self.coordenadas[0]
+        self.ini_y = self.coordenadas[1]
+        self.fim_x = self.coordenadas[2]
+        self.fim_y = self.coordenadas[3]
 
-def desenhar():
-    canvas.delete("all")
-    for circulo in circulos:
-        x, y, r = circulo
-        canvas.create_oval(x-r, y-r, x+r, y+r)
+        self.raio = ( (self.ini_x - self.fim_x)**2 + (self.ini_y - self.fim_y)**2 ) ** 0.5
 
+    # Metodo para criar o circulo
+    def desenhar(self,canvas):
+        canvas.create_oval(self.ini_x-self.raio, self.ini_y-self.raio, self.ini_x+self.raio, self.ini_y+self.raio, fill=self.corBorda, dash= self.dash)
+    # Metodo utilizado para criar um novo circulo
+    def atualizar(self, novoX, novoY):
+        self.coordenadas = [self.ini_x, self.ini_y, novoX, novoY]
 
-
-#******* MAIN *******#
-
-# Todos os círculos desenhados são armazenados aqui
-circulos = []
-raio = None
-
-root = Tk()
-
-canvas = Canvas(root, bg='white', width=600, height=600)
-canvas.pack()
-
-ini_x = None
-ini_y = None
-fim_x = None
-fim_y = None
-canvas.bind('<ButtonPress-1>', inicia_linha)
-canvas.bind('<B1-Motion>', atualiza_linha)
-canvas.bind('<ButtonRelease-1>', incluir_linha)
-
-root.mainloop()
+    # Metodo utilizado para verificar se a figura é um circulo ou nao
+    def verificarFig(self):
+        # Se o ponto inicial é o mesmo do final, ou seja, se(ini_x,ini_y) == (fim_x,fim_y),essa figura nao devera ser um circulo
+        if (self.ini_x,self.ini_y) == (self.fim_x,self.fim_y):
+            return False
+        else:
+            return True
