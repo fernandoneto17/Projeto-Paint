@@ -15,6 +15,12 @@ class Linha(Figura):
     def atualizar(self, novoX, novoY):
         self.coordenadas = [self.coordenadas[0], self.coordenadas[1], novoX, novoY]
     
+    def verificarFig(self):
+        if self.coordenadas[0] == self.coordenadas[2] and self.coordenadas[1] == self.coordenadas[3]:
+            return False
+        else:
+            return True
+        
     #Foi necessário criar este método para que, ao soltar o mouse, a linha fique contínua, e não desenhe tracejada igual ao rascunho.
     def finalizar(self):
         self.dash = ''
