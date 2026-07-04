@@ -31,3 +31,7 @@ class Circulo(Figura):
             return False
         else:
             return True
+
+    # Metodo para tirar o tracejado no desenho
+    def finalizar(self):
+        self.dash = ''

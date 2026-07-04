@@ -1,25 +1,21 @@
 from figura import Figura
-
+from tkinter import *
 
 class Retangulo(Figura):
-    def __init__(self,coordenadas, x_inicial, y_inicial, corBorda="black", corPreenchimento="", dash=None):
+    def __init__(self,coordenadas, corBorda, corPreenchimento, dash):
         super().__init__(coordenadas, corBorda, corPreenchimento, dash)
-        coordenadas = [x_inicial, y_inicial, x_inicial, y_inicial]
         
-
     def desenhar(self, canvas):
-        x1, y1, x2, y2 = self.coordenadas
-        canvas.create_rectangle(
-            x1, y1, x2, y2,
-            outline=self.corBorda,
-            fill=self.corPreenchimento,
-            dash=self.dash
-        )
+        canvas.create_rectangle(self.coordenadas[0], self.coordenadas[1], self.coordenadas[2], self.coordenadas[3], outline= self.corBorda,fill= self.corPreenchimento, dash= self.dash)
 
-    def atualizar(self, event):
-        self.coordenadas[2] = event.x
-        self.coordenadas[3] = event.y
+    def atualizar(self, novoX, novoY):
+        self.coordenadas = [self.coordenadas[0], self.coordenadas[1], novoX, novoY]
 
     def verificarFig(self):
-        x1, y1, x2, y2 = self.coordenadas
-        return abs(x2 - x1) > 2 and abs(y2 - y1) > 2
+        if abs(self.coordenadas[2] - self.coordenadas[0]) > 2 and abs(self.coordenadas[3] - self.coordenadas[1]) > 2:
+            return True
+        else:
+            return False
+
+    def finalizar(self):
+        self.dash = ''
