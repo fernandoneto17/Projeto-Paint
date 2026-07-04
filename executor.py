@@ -2,6 +2,7 @@ from linha import Linha
 from circulos import Circulo
 from elipse import Elipse
 from retangulos import Retangulo
+from rabisco import Rabisco
 
 class Executor:
     def __init__(self, interface):
@@ -34,7 +35,10 @@ class Executor:
             self.figuraAtual = Linha(coordenadas, corBorda, corPreenchimento, dash= (4,2))
             self.figuraAtual.desenhar(self.interface.canvas)
         elif tipoFigura == 'Rabisco':
-            pass
+            #Aqui é similar a linha, mas o rabisco não possui dash.
+            coordenadas = [self.xInicial, self.yInicial, self.xInicial, self.yInicial]
+            self.figuraAtual = Rabisco(coordenadas, corBorda, corPreenchimento, dash= '')
+            self.figuraAtual.desenhar(self.interface.canvas)
         elif tipoFigura == 'Retângulo':
             #Repetindo o que fizemos em Linha.
             coordenadas = [self.xInicial, self.yInicial, self.xInicial, self.yInicial]
