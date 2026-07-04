@@ -19,10 +19,13 @@ class Circulo(Figura):
 
     # Metodo para criar o circulo
     def desenhar(self,canvas):
-        canvas.create_oval(self.ini_x-self.raio, self.ini_y-self.raio, self.ini_x+self.raio, self.ini_y+self.raio, fill=self.corBorda, dash= self.dash)
+        canvas.create_oval(self.ini_x-self.raio, self.ini_y-self.raio, self.ini_x+self.raio, self.ini_y+self.raio, fill=self.corPreenchimento,outline=self.corBorda, dash= self.dash)
     # Metodo utilizado para criar um novo circulo
     def atualizar(self, novoX, novoY):
         self.coordenadas = [self.ini_x, self.ini_y, novoX, novoY]
+        self.fim_x = novoX
+        self.fim_y = novoY
+        self.raio = ( (self.ini_x - self.fim_x)**2 + (self.ini_y - self.fim_y)**2 ) ** 0.5
 
     # Metodo utilizado para verificar se a figura é um circulo ou nao
     def verificarFig(self):
