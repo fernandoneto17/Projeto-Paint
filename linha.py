@@ -15,6 +15,7 @@ class Linha(Figura):
     def atualizar(self, novoX, novoY):
         self.coordenadas = [self.coordenadas[0], self.coordenadas[1], novoX, novoY]
     
+    #Esse método serve para conferirmos se a linha não vai ser um ponto. 
     def verificarFig(self):
         if self.coordenadas[0] == self.coordenadas[2] and self.coordenadas[1] == self.coordenadas[3]:
             return False
