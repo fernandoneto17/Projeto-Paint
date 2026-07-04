@@ -1,4 +1,4 @@
-from classe_Linha import Linha
+from linha import Linha
 
 class Executor:
     def __init__(self, interface):
