@@ -8,10 +8,13 @@ class Rabisco(Figura):
         canvas.create_line(self.coordenadas,fill=self.corBorda,dash = self.dash)
     
     def atualizar(self,novoX,novoY):
-        self.coordenadas.append((novoX,novoY))
+        self.coordenadas.extend([novoX,novoY])
     
     def verificarFig(self):
-        return len(self.coordenadas > 1)
+        if len(self.coordenadas) > 4:
+            return True
+        else:
+            return False
 
     def finalizar(self):
         self.dash = ''
