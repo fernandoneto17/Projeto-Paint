@@ -1,18 +1,21 @@
 from figura import Figura
+from tkinter import *
 
 class Elipse(Figura):
-    def _init_(self, coordenadas, x_inicial, y_inicial, corBorda="black", corPreenchimento="", dash=None):
-        super()._init_(coordenadas, corBorda, corPreenchimento, dash)
-        coordenadas = [x_inicial, y_inicial, x_inicial, y_inicial]
+    def __init__(self, coordenadas, corBorda, corPreenchimento, dash):
+        super().__init__(coordenadas, corBorda, corPreenchimento, dash)
 
     def desenhar(self, canvas):
-        centro_x, centro_y, raio_x, raio_y  = self.coordenadas
-        canvas.create_oval(centro_x, centro_y, raio_x, raio_y,outline=self.corBorda,fill=self.corPreenchimento,dash=self.dash)
+        canvas.create_oval(self.coordenadas[0], self.coordenadas[1], self.coordenadas[2], self.coordenadas[3], outline= self.corBorda,fill= self.corPreenchimento, dash= self.dash)
 
-    def atualizar(self, event):
-        self.coordenadas[2] = event.x
-        self.coordenadas[3] = event.y
+    def atualizar(self, novoX, novoY):
+        self.coordenadas = [self.coordenadas[0], self.coordenadas[1], novoX, novoY]
 
     def verificarFig(self):
-        centro_x, centro_y, raio_x, raio_y = self.coordenadas
-        return abs(raio_x- centro_x) > 2 and abs(raio_y - centro_y) > 2
+        if abs(self.coordenadas[2] - self.coordenadas[0]) > 2 and abs(self.coordenadas[3] - self.coordenadas[1]) > 2:
+            return True
+        else:
+            return False
+        
+    def finalizar(self):
+        self.dash = ''

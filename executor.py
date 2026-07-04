@@ -1,4 +1,7 @@
 from linha import Linha
+from circulos import Circulo
+from elipse import Elipse
+from retangulos import Retangulo
 
 class Executor:
     def __init__(self, interface):
