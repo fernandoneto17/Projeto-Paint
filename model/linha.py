@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from tkinter import *
-from figura import *
+from .figura import *
 
 class Linha(Figura):
     #Para criar uma linha, precisamos de 2 pontos(cada ponto possui 2 coordenadas) e as características da classe mãe, por isso nosso construtor está assim:

@@ -1,4 +1,4 @@
-from figura import Figura
+from .figura import Figura
 # Essa classe serve para criarmos os "rabiscos"(mão livre)
 class Rabisco(Figura):
     def __init__(self, coordenadas, corBorda, corPreenchimento, dash):

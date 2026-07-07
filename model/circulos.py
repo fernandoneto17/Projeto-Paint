@@ -1,4 +1,4 @@
-from figura import Figura
+from .figura import Figura
 from tkinter import *
 
 # Essa classe servirá de molde para os círculos que desenharmos

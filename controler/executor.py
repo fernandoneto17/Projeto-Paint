@@ -1,8 +1,8 @@
-from linha import Linha
-from circulos import Circulo
-from elipse import Elipse
-from retangulos import Retangulo
-from rabisco import Rabisco
+from model import Linha
+from model import Elipse
+from model import Circulo
+from model import Retangulo
+from model import Rabisco
 
 class Executor:
     def __init__(self, interface):

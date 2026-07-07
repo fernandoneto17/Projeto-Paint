@@ -1,4 +1,4 @@
-from figura import Figura
+from .figura import Figura
 from tkinter import *
 
 # Classe filha da Figura
