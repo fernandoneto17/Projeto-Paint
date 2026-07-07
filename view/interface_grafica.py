@@ -54,3 +54,17 @@ class InterfaceGrafica:
         self.corPreenchimentoVar.set('Sem preenchimento')
 
         #Lembrar de colocar o .mainloop() no arquivo de execução.
+
+    def desenhar_figura(self, figura):
+        # Descobre qual é a classe do modelo (ex: 'Retangulo', 'Linha', etc.)
+        tipo = figura.__class__.__name__
+        
+        if tipo == 'Linha' or tipo == 'Rabisco':
+            self.canvas.create_line(figura.coordenadas, smooth=True,        # <-- Ativa a suavização
+                splinesteps=36, fill=figura.corBorda, dash=figura.dash)
+            
+        elif tipo == 'Retangulo':
+            self.canvas.create_rectangle(figura.coordenadas, outline=figura.corBorda, fill=figura.corPreenchimento, dash=figura.dash)
+            
+        elif tipo == 'Elipse' or tipo == 'Circulo':
+            self.canvas.create_oval(figura.coordenadas, outline=figura.corBorda, fill=figura.corPreenchimento, dash=figura.dash)

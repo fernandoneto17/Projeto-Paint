@@ -9,9 +9,9 @@ class Figura(ABC):
         self.dash = dash
 
 #Esses são os métodos que TODAS as classes filhas precisam ter obrigatoriamente, por isso o uso de métodos abstratos.
-    @abstractmethod
-    def desenhar(self):
-        pass
+    #@abstractmethod
+    #def desenhar(self):
+        #pass
 
     @abstractmethod
     def atualizar(self):

@@ -7,10 +7,7 @@ class Linha(Figura):
     def __init__(self, coordenadas, corBorda, corPreenchimento, dash):
         super().__init__(coordenadas, corBorda, corPreenchimento, dash)
 
-    #Criei uma linha utilizando as coordenadas dos pontos. O canvas é onde o desenho ocorre.
-    def desenhar(self, canvas):
-        canvas.create_line(self.coordenadas[0], self.coordenadas[1], self.coordenadas[2], self.coordenadas[3], fill= self.corBorda, dash= self.dash)
-    
+   
     #Isso aqui serve para quando eu desenhar uma linha e querer desenhar outra.
     def atualizar(self, novoX, novoY):
         self.coordenadas = [self.coordenadas[0], self.coordenadas[1], novoX, novoY]

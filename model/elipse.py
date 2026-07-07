@@ -7,10 +7,6 @@ class Elipse(Figura):
     def _init_(self, coordenadas, corBorda, corPreenchimento, dash):
         super()._init_(coordenadas, corBorda, corPreenchimento, dash)
 
-    # Desenha a elipse no canvas
-    def desenhar(self, canvas):
-        canvas.create_oval(self.coordenadas[0], self.coordenadas[1], self.coordenadas[2], self.coordenadas[3], outline= self.corBorda,fill= self.corPreenchimento, dash= self.dash)
-
     # Atualiza o ponto final da figura
     def atualizar(self, novoX, novoY):
         self.coordenadas = [self.coordenadas[0], self.coordenadas[1], novoX, novoY]

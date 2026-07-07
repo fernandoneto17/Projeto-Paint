@@ -1,6 +1,6 @@
 from tkinter import *
-from interface_grafica import InterfaceGrafica
-from executor import Executor  
+from view.interface_grafica import InterfaceGrafica
+from controller.executor import Executor  
 
 def main():
     #Criamos a janela principal (a raiz do Tkinter):
