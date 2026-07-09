@@ -19,7 +19,7 @@ class Circulo(Figura):
 
     # Metodo utilizado para criar um novo circulo
     def atualizar(self, novoX, novoY):
-        self.coordenadas = [self.ini_x, self.ini_y, novoX, novoY]
+        self.coordenadas = [self.ini_x - self.raio, self.ini_y - self.raio, self.ini_x + self.raio, self.ini_y + self.raio]
         self.fim_x = novoX
         self.fim_y = novoY
         self.raio = ( (self.ini_x - self.fim_x)**2 + (self.ini_y - self.fim_y)**2 ) ** 0.5

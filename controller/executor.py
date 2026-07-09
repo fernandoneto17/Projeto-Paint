@@ -21,8 +21,8 @@ class Executor:
         self.xInicial = event.x
         self.yInicial = event.y
         tipoFigura = self.interface.tipoFiguraVar.get()
-        corBorda = self.interface.tradutorCores[self.interface.corBordaVar.get()]
-        corPreenchimento = self.interface.tradutorCores[self.interface.corPreenchimentoVar.get()]
+        corBorda = self.interface.cores_borda.get(self.interface.corBordaVar.get())
+        corPreenchimento = self.interface.cores_preenchimento.get(self.interface.corPreenchimentoVar.get())
 
         coordenadas = [self.xInicial, self.yInicial, self.xInicial, self.yInicial]
 
@@ -44,7 +44,7 @@ class Executor:
 
     def atualizar_figura_nova(self, event):
         if self.figuraAtual is not None:
-            self.interface.canvas.delete("all")
+            self.interface.limpar_canvas()
 
             # Redesenhando o histórico usando a View:
             for desenho in self.desenhos:
