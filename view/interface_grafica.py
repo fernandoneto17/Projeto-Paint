@@ -133,10 +133,9 @@ class InterfaceGrafica:
                 splinesteps=36, fill=figura.corBorda, dash=figura.dash)
             
         elif tipo == 'Retangulo':
-            self.canvas.create_rectangle(figura.coordenadas, outline=figura.corBorda, fill=figura.corPreenchimento, dash=figura.dash)
+            self.canvas.create_rectangle(*figura.coordenadas, outline=figura.corBorda, fill=figura.corPreenchimento, dash=figura.dash)
             
         elif tipo == 'Elipse' or tipo == 'Circulo':
             self.canvas.create_oval(figura.coordenadas, outline=figura.corBorda, fill=figura.corPreenchimento, dash=figura.dash)
-
     def limpar_canvas(self):
         self.canvas.delete("all")

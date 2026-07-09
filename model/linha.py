@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from tkinter import *
 from .figura import *
 
 class Linha(Figura):

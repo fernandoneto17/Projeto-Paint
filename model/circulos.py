@@ -1,5 +1,4 @@
 from .figura import Figura
-from tkinter import *
 
 # Essa classe servirá de molde para os círculos que desenharmos
 class Circulo(Figura):
@@ -19,10 +18,11 @@ class Circulo(Figura):
 
     # Metodo utilizado para criar um novo circulo
     def atualizar(self, novoX, novoY):
-        self.coordenadas = [self.ini_x - self.raio, self.ini_y - self.raio, self.ini_x + self.raio, self.ini_y + self.raio]
+        self.coordenadas = [self.ini_x, self.ini_y, novoX, novoY]
         self.fim_x = novoX
         self.fim_y = novoY
         self.raio = ( (self.ini_x - self.fim_x)**2 + (self.ini_y - self.fim_y)**2 ) ** 0.5
+        self.coordenadas = [self.ini_x - self.raio, self.ini_y - self.raio, self.ini_x + self.raio, self.ini_y + self.raio]
 
     # Metodo utilizado para verificar se a figura é um circulo ou nao
     def verificarFig(self):

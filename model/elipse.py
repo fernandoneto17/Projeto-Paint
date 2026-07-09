@@ -1,11 +1,10 @@
 from .figura import Figura
-from tkinter import *
 
 # Classe filha da Figura
 class Elipse(Figura):
     # Inicializa os atributos herdados
-    def _init_(self, coordenadas, corBorda, corPreenchimento, dash):
-        super()._init_(coordenadas, corBorda, corPreenchimento, dash)
+    def __init__(self, coordenadas, corBorda, corPreenchimento, dash):
+        super().__init__(coordenadas, corBorda, corPreenchimento, dash)
 
     # Atualiza o ponto final da figura
     def atualizar(self, novoX, novoY):
