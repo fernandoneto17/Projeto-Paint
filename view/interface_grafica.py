@@ -24,6 +24,7 @@ class InterfaceGrafica:
         self.imagem_elipse = PhotoImage(file=os.path.join(pasta_imagens, 'elipse.png'))
         self.imagem_linha = PhotoImage(file=os.path.join(pasta_imagens, 'linha.png'))
         self.imagem_rabisco = PhotoImage(file=os.path.join(pasta_imagens, 'curva.png'))
+        self.imagem_quadrado = PhotoImage(file=os.path.join(pasta_imagens, 'quadrado.png'))  
 
         #Criando os botões com as imagens carregadas
         self.botao_retangulo = Button(self.frame_botoes, image=self.imagem_retangulo, command=lambda: self.tipoFiguraVar.set('Retângulo'))
@@ -31,6 +32,7 @@ class InterfaceGrafica:
         self.botao_elipse = Button(self.frame_botoes, image=self.imagem_elipse, command=lambda: self.tipoFiguraVar.set('Elipse'))
         self.botao_linha = Button(self.frame_botoes, image=self.imagem_linha, command=lambda: self.tipoFiguraVar.set('Linha'))
         self.botao_rabisco = Button(self.frame_botoes, image=self.imagem_rabisco, command=lambda: self.tipoFiguraVar.set('Rabisco'))
+        self.botao_quadrado = Button(self.frame_botoes, image=self.imagem_quadrado, command=lambda: self.tipoFiguraVar.set('Quadrado'))  
 
         #Posicionando os botões no frame_botoes
         self.botao_retangulo.grid(row=0, column=1, padx=5, pady=5)
@@ -38,6 +40,7 @@ class InterfaceGrafica:
         self.botao_elipse.grid(row=0, column=3, padx=5, pady=5)
         self.botao_linha.grid(row=0, column=4, padx=5, pady=5)
         self.botao_rabisco.grid(row=0, column=5, padx=5, pady=5)
+        self.botao_quadrado.grid(row=0, column=6, padx=5, pady=5)  
 
 
         #Criando o dicionário das cores, assim como foi feito no hiperativo:
@@ -132,7 +135,7 @@ class InterfaceGrafica:
             self.canvas.create_line(figura.coordenadas, smooth=True,        # <-- Ativa a suavização
                 splinesteps=36, fill=figura.corBorda, dash=figura.dash)
             
-        elif tipo == 'Retangulo':
+        elif tipo == 'Retangulo' or tipo == 'Quadrado':
             self.canvas.create_rectangle(*figura.coordenadas, outline=figura.corBorda, fill=figura.corPreenchimento, dash=figura.dash)
             
         elif tipo == 'Elipse' or tipo == 'Circulo':

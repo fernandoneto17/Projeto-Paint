@@ -3,6 +3,7 @@ from model.elipse import Elipse
 from model.circulos import Circulo
 from model.retangulos import Retangulo
 from model.rabisco import Rabisco
+from model.quadrado import Quadrado
 
 class Executor:
     def __init__(self, interface):
@@ -37,6 +38,8 @@ class Executor:
             self.figuraAtual = Elipse(coordenadas, corBorda, corPreenchimento, dash=(4,2))
         elif tipoFigura == 'Círculo':
             self.figuraAtual = Circulo(coordenadas, corBorda, corPreenchimento, dash=(4,2))
+        elif tipoFigura == 'Quadrado':
+            self.figuraAtual = Quadrado(coordenadas, corBorda, corPreenchimento, dash=(4,2))
 
         # O Controller manda a View desenhar o modelo atual:
         if self.figuraAtual:
