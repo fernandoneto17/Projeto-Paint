@@ -18,11 +18,11 @@ class EstadoQuadrado:
             #Apagando o canvas e redesenha o histórico:
             executor.interface.limpar_canvas()
             for desenho in executor.desenhos:
-                executor.interface.desenhar_figura_nova(desenho)
+                executor.interface.desenhar_figura(desenho)
             
             #Atualizando e desenhando a figura atual:
             executor.figuraAtual.atualizar(event.x, event.y)
-            executor.interface.desenhar_figura_nova(executor.figuraAtual)
+            executor.interface.desenhar_figura(executor.figuraAtual)
 
     def incluir_figura_nova(self, event, executor):
         if executor.figuraAtual is not None:
@@ -36,7 +36,7 @@ class EstadoQuadrado:
             #Redesenhando a versão final:
             executor.interface.limpar_canvas()
             for desenho in executor.desenhos:
-                executor.interface.desenhar_figura_nova(desenho)
+                executor.interface.desenhar_figura(desenho)
                 
             #Limpando a figura atual do Executor para o próximo clique:
             executor.figuraAtual = None
