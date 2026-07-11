@@ -1,6 +1,7 @@
 from tkinter import *
 from view.interface_grafica import InterfaceGrafica
-from controller.executor import Executor  
+from controller.executor import Executor
+from model.desenhoModel import DesenhoModel
 
 def main():
     #Criamos a janela principal (a raiz do Tkinter):
@@ -9,9 +10,9 @@ def main():
     root.minsize(width=1152, height=648)
     #Criamos o objeto real da Interface, passando a janela 'root' para ela:
     tela = InterfaceGrafica(root)
-    
+    model = DesenhoModel()
     #Passamos a tela como atributo para o construtor (o self.interface):
-    executor = Executor(tela)
+    executor = Executor(tela, model)
     
     #Mantemos a janela aberta e escutando os cliques do utilizador (como foi lembrado na classe da InterfaceGráfica):
     root.mainloop()
