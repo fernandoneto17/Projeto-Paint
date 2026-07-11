@@ -6,7 +6,7 @@ def main():
     #Criamos a janela principal (a raiz do Tkinter):
     root = Tk()
     root.title('App de desenho')
-    
+    root.minsize(width=1152, height=648)
     #Criamos o objeto real da Interface, passando a janela 'root' para ela:
     tela = InterfaceGrafica(root)
     

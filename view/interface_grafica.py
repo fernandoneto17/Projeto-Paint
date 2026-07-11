@@ -5,43 +5,13 @@ class InterfaceGrafica:
     def __init__(self, root):
         #Recebendo o root como atributo. Por que apenas ele? Porque precisamos de uma janela para poder criarmos o restante da parte gráfica, ou seja, precisamos dele pronto.
         self.root = root
-        
+        self.frame = Frame(root)
+
+
         pasta_view = os.path.dirname(os.path.abspath(__file__))  # Obtém o diretório do arquivo atual
         pasta_projeto = os.path.dirname(pasta_view)  # Obtém o diretório pai (projeto)
         pasta_imagens = os.path.join(pasta_projeto, 'figuras')  # Caminho completo para a pasta de imagens
         #Criando frame(moldura) para organizar todos os elementos visuais:
-        self.frame = Frame(root)
-
-        #Criando um frame para os botões, que ficará acima do canvas:
-        self.frame_botoes = Frame(root)
-        self.frame_botoes.pack(side = TOP, fill = X)
-        
-        Label(self.frame_botoes, text="Formas:").grid(row=0, column=0, padx=10, pady=10, sticky="w")
-
-        #Carregando as imagens dos botões
-        self.imagem_retangulo = PhotoImage(file=os.path.join(pasta_imagens, 'retangulo.png'))
-        self.imagem_circulo = PhotoImage(file=os.path.join(pasta_imagens, 'circulo.png'))
-        self.imagem_elipse = PhotoImage(file=os.path.join(pasta_imagens, 'elipse.png'))
-        self.imagem_linha = PhotoImage(file=os.path.join(pasta_imagens, 'linha.png'))
-        self.imagem_rabisco = PhotoImage(file=os.path.join(pasta_imagens, 'curva.png'))
-        self.imagem_quadrado = PhotoImage(file=os.path.join(pasta_imagens, 'quadrado.png'))  
-
-        #Criando os botões com as imagens carregadas
-        self.botao_retangulo = Button(self.frame_botoes, image=self.imagem_retangulo, command=lambda: self.tipoFiguraVar.set('Retângulo'))
-        self.botao_circulo = Button(self.frame_botoes, image=self.imagem_circulo, command=lambda: self.tipoFiguraVar.set('Círculo'))
-        self.botao_elipse = Button(self.frame_botoes, image=self.imagem_elipse, command=lambda: self.tipoFiguraVar.set('Elipse'))
-        self.botao_linha = Button(self.frame_botoes, image=self.imagem_linha, command=lambda: self.tipoFiguraVar.set('Linha'))
-        self.botao_rabisco = Button(self.frame_botoes, image=self.imagem_rabisco, command=lambda: self.tipoFiguraVar.set('Rabisco'))
-        self.botao_quadrado = Button(self.frame_botoes, image=self.imagem_quadrado, command=lambda: self.tipoFiguraVar.set('Quadrado'))  
-
-        #Posicionando os botões no frame_botoes
-        self.botao_retangulo.grid(row=0, column=1, padx=5, pady=5)
-        self.botao_circulo.grid(row=0, column=2, padx=5, pady=5)
-        self.botao_elipse.grid(row=0, column=3, padx=5, pady=5)
-        self.botao_linha.grid(row=0, column=4, padx=5, pady=5)
-        self.botao_rabisco.grid(row=0, column=5, padx=5, pady=5)
-        self.botao_quadrado.grid(row=0, column=6, padx=5, pady=5)  
-
 
         #Criando o dicionário das cores, assim como foi feito no hiperativo:
         self.cores_preenchimento = {
@@ -62,13 +32,39 @@ class InterfaceGrafica:
                             'Branco': 'white',
                             }
         
+
+        self.figura_imagem = [
+        ('Linha', 'linha.png'),
+        ('Rabisco', 'curva.png'),
+        ('Retângulo', 'retangulo.png'),
+        ('Círculo', 'circulo.png'),
+        ('Elipse', 'elipse.png'),
+        ('Quadrado','quadrado.png')
+        ]
+
+        #Criando um frame para os botões, que ficará acima do canvas:
+        self.frame_botoes = Frame(root)
+        self.frame_botoes.pack(side = TOP, fill = X)
+        Label(self.frame_botoes, text="Formas:").grid(row=0, column=0, padx=10, pady=10, sticky="w")
+        
+        for i, (nome, arquivo) in enumerate(self.figura_imagem):
+            caminho_imagem = os.path.join(pasta_imagens, arquivo)#Para acessar as imagens da pasta figuras(o caminho está no trecho de código no inicio da classe)
+            imagem = PhotoImage(file=caminho_imagem)
+            botao = Button(
+                self.frame_botoes,
+                image=imagem,
+                command=lambda n=nome: self.tipoFiguraVar.set(n)
+            )
+            botao.image = imagem
+            botao.grid(column=i + 1, row=0, padx=2, pady=2, sticky=W)
+
+
         #Criando os botões de cores da borda, que ficarão acima do canvas:
         self.frame_cores_borda = Frame(self.root)
         self.frame_cores_borda.pack(side = TOP, fill = X, padx=5, pady=5)
 
 
         Label(self.frame_cores_borda, text="Cor da borda:").grid(row=1, column=0, padx=10, pady=10, sticky="w")
-        # botões da borda na row=1, columns 1...
 
         for i, (nome_cor, cor_bg) in enumerate(self.cores_borda.items()):
             Button(
@@ -97,12 +93,6 @@ class InterfaceGrafica:
             ).grid(row=2, column=i + 1, padx=3, pady=3)
 
 
-
-
-
-        #Não consegui criar os botões das figuras dessa forma, por isso ta criado um a um lá em cima.
-
-
         #Criando as variáveis especiais que guardam a escolha do usuário:
         self.corBordaVar = StringVar()
         self.corPreenchimentoVar = StringVar()
@@ -116,9 +106,9 @@ class InterfaceGrafica:
 
         
         #Posicionado o layout do frame principal da tela e do canvas(parte onde desenha):
-        self.frame.pack(fill=BOTH, expand=True)
-        self.canvas.grid(column=0, row=1, columnspan=6, sticky=W, **self.paddings)
-        
+        self.frame.pack(side=TOP,fill=BOTH, expand=True)
+        self.canvas.grid(column=0, row=1, columnspan=6, sticky=W ,**self.paddings)
+        self.canvas.place(relx=0.5, rely=0.5, anchor='center')
 
         #Esse trecho serve para deixar os botões com esse texto aparecendo, se não, o botão inicalizaria em branco e precisaria clicar para aparecer suas opções.
         self.tipoFiguraVar.set('Linha')
