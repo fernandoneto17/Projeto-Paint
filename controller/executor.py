@@ -14,7 +14,6 @@ class Executor:
         self.xInicial = 0
         self.yInicial = 0
 
-
         # Tabela de mapeamento entre o nome escolhido na interface e a classe de estado correspondente. Isso permite trocar de ferramenta sem usar if/elif.
         self.mapeamentoEstados = {
         'Linha': EstadoLinha,
@@ -39,13 +38,17 @@ class Executor:
     def iniciar_figura_nova(self, event):
         self.xInicial = event.x
         self.yInicial = event.y
-
-
-        corBorda = self.interface.cores.get(self.interface.corBordaVar.get())
-        corPreenchimento = self.interface.cores.get(self.interface.corPreenchimentoVar.get())
-
-
+        self.model.ferramenta = self.interface.tipoFiguraVar.get()
+        tipoFigura = self.model.ferramenta
+        corBorda = self.interface.cores_borda.get(self.interface.corBordaVar.get())
+        corPreenchimento = self.interface.cores_preenchimento.get(self.interface.corPreenchimentoVar.get())
+    
         coordenadas = [self.xInicial, self.yInicial, self.xInicial, self.yInicial]
+        # chamando a função para criar o onjeto a partir do clique do mouse
+        self.criar_figura_atual(tipoFigura, coordenadas, corBorda, corPreenchimento)
+        
+    def criar_figura_atual(self, tipoFigura, coordenadas, corBorda, corPreenchimento):
+        self.model.figuraAtual = self.model.dicionarios_figuras[tipoFigura](coordenadas, corBorda, corPreenchimento)
 
 
         # O tipo da figura vem do estado atual. Isso evita condicionais e faz o comportamento depender do objeto de estado.

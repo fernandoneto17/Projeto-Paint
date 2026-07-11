@@ -160,6 +160,3 @@ class InterfaceGrafica:
     #Permite escolher local de onde o arquivo está (acessar o caminho do arquivo)
     def pedir_caminho_abrir(self):
         return filedialog.askopenfilename( title="Abrir desenho", filetypes=[("Arquivo Pickle", "*.pkl")])
-
-
-
