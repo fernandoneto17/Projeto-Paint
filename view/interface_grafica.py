@@ -110,6 +110,7 @@ class InterfaceGrafica:
         self.canvas.grid(column=0, row=1, columnspan=6, sticky=W ,**self.paddings)
         self.canvas.place(relx=0.5, rely=0.5, anchor='center')
 
+
         #Esse trecho serve para deixar os botões com esse texto aparecendo, se não, o botão inicalizaria em branco e precisaria clicar para aparecer suas opções.
         self.tipoFiguraVar.set('Linha')
         self.corBordaVar.set('Preto')
