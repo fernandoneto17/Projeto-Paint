@@ -13,7 +13,6 @@ class DesenhoModel:
         self.desenhos = []
         self.estadoAtual = EstadoLinha()
 
-
         # Criação de dicionario para associar uma figura e chamar a função dessa figura a partir dos parametros dados:
         self.dicionarioFiguras = {
             'Linha': lambda coordenadas, corBorda, corPreenchimento: Linha(coordenadas, corBorda, corPreenchimento, dash=(4,2)),

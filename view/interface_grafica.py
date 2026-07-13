@@ -10,12 +10,9 @@ class InterfaceGrafica:
         self.frame = Frame(root)
 
 
-
-
         pastaView = os.path.dirname(os.path.abspath(__file__))  # Obtém o diretório do arquivo atual
         pastaProjeto = os.path.dirname(pastaView)  # Obtém o diretório pai (projeto)
         pastaImagens = os.path.join(pastaProjeto, 'figuras')  # Caminho completo para a pasta de imagens
-
 
         #Criando o dicionário das cores, assim como foi feito no hiperativo:
         self.cores = {
@@ -44,7 +41,7 @@ class InterfaceGrafica:
         self.frameBotoes = Frame(root)
         self.frameBotoes.pack(side = TOP, fill = X)
         Label(self.frameBotoes, text="Formas:").grid(row=0, column=0, padx=10, pady=10, sticky="w")
-       
+        
         for i, (nome, arquivo) in enumerate(self.figuraImagem):
             caminhoImagem = os.path.join(pastaImagens, arquivo)#Para acessar as imagens da pasta figuras(o caminho está no trecho de código no inicio da classe)
             imagem = PhotoImage(file=caminhoImagem)
@@ -72,10 +69,7 @@ class InterfaceGrafica:
         self.frameCoresBorda.pack(side = TOP, fill = X, padx=5, pady=5)
 
 
-
-
         Label(self.frameCoresBorda, text="Cor da borda:").grid(row=1, column=0, padx=10, pady=10, sticky="w")
-
 
         for i, (nomeCor, corbg) in enumerate(self.cores.items()):
             Button(
@@ -94,10 +88,7 @@ class InterfaceGrafica:
         self.frameCoresFill.pack(side = TOP, fill = X, padx=5, pady=5)
 
 
-
-
         Label(self.frameCoresFill, text="Cor do preenchimento:").grid(row=2, column=0, padx=10, pady=10, sticky="w")
-
 
         for i, (nomeCorFIll, corBg) in enumerate(self.cores.items()):
             Button(
@@ -130,8 +121,6 @@ class InterfaceGrafica:
         self.frame.pack(side=TOP,fill=BOTH, expand=True)
         self.canvas.grid(column=0, row=1, columnspan=6, sticky=W ,**self.paddings)
         self.canvas.place(relx=0.5, rely=0.5, anchor='center')
-
-
 
 
     def desenhar_figura(self, figura):
