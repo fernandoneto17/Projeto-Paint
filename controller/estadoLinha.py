@@ -1,6 +1,7 @@
 from model.linha import Linha
+from .Ferramenta import Ferramenta
 
-class EstadoLinha:
+class EstadoLinha(Ferramenta):
     #Basicamente, o código que estava no método dos ifs:
     def iniciar_figura_nova(self, event, executor):
         #Pegando as cores da interface (que está no executor):
