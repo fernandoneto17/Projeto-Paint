@@ -1,14 +1,13 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 
 class EstadoFerramenta(ABC):
-    @abstractmethod
+    tipoFigura = None
+
     def pressionar(self, controller, event):
-        pass
+        controller.iniciar_figura_nova(event)
 
-    @abstractmethod
     def arrastar(self, controller, event):
-        pass
+        controller.atualizar_figura_nova(event)
 
-    @abstractmethod
     def soltar(self, controller, event):
-        pass
+        controller.incluir_figura_nova(event)
