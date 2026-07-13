@@ -1,67 +1,104 @@
-from model.linha import Linha
-from model.elipse import Elipse
-from model.circulos import Circulo
-from model.retangulos import Retangulo
-from model.rabisco import Rabisco
-from model.quadrado import Quadrado
-
+from .estados.estadoLinha import EstadoLinha
+from .estados.estadoRabisco import EstadoRabisco
+from .estados.estadoCirculo import EstadoCirculo
+from .estados.estadoElipse import EstadoElipse
+from .estados.estadoRetangulo import EstadoRetangulo
+from .estados.estadoQuadrado import EstadoQuadrado
+ 
 class Executor:
     def __init__(self, interface, model):
         self.interface = interface
         self.model = model
         self.xInicial = 0
         self.yInicial = 0
-        
-        
-        # Ajustando os cliques do mouse:
-        self.interface.canvas.bind('<ButtonPress-1>', self.iniciar_figura_nova)
-        self.interface.canvas.bind('<B1-Motion>', self.atualizar_figura_nova)
-        self.interface.canvas.bind('<ButtonRelease-1>', self.incluir_figura_nova)
 
+        # Tabela de mapeamento entre o nome escolhido na interface e a classe de estado correspondente. Isso permite trocar de ferramenta sem usar if/elif.
+        self.mapeamentoEstados = {
+        'Linha': EstadoLinha,
+        'Rabisco': EstadoRabisco,
+        'Circulo': EstadoCirculo,
+        'Elipse': EstadoElipse,
+        'Retangulo': EstadoRetangulo,
+        'Quadrado': EstadoQuadrado,
+    }
+        
+        # Associa os eventos do mouse que ocorrem no canvas da View aos métodos de tratamento definidos no Controller.
+        self.interface.canvas.bind('<ButtonPress-1>', self.ao_pressionar_mouse)
+        self.interface.canvas.bind('<B1-Motion>', self.ao_arrastar_mouse)
+        self.interface.canvas.bind('<ButtonRelease-1>', self.ao_soltar_mouse)
+
+    # Inicia a criação da figura atual a partir do ponto em que o mouse foi pressionado.
     def iniciar_figura_nova(self, event): 
         self.xInicial = event.x
         self.yInicial = event.y
-        self.model.ferramenta = self.interface.tipoFiguraVar.get()
-        tipoFigura = self.model.ferramenta
-        corBorda = self.interface.cores_borda.get(self.interface.corBordaVar.get())
-        corPreenchimento = self.interface.cores_preenchimento.get(self.interface.corPreenchimentoVar.get())
-    
+
+        corBorda = self.interface.cores.get(self.interface.corBordaVar.get())
+        corPreenchimento = self.interface.cores.get(self.interface.corPreenchimentoVar.get())
+
         coordenadas = [self.xInicial, self.yInicial, self.xInicial, self.yInicial]
-        # chamando a função para criar o onjeto a partir do clique do mouse
+
+        # O tipo da figura vem do estado atual. Isso evita condicionais e faz o comportamento depender do objeto de estado.
+        tipoFigura = self.model.estadoAtual.tipoFigura
+
+        # Solicita a criação da figura atual no Model com base no tipo informado pelo estado ativo e nos dados coletados da View.
         self.criar_figura_atual(tipoFigura, coordenadas, corBorda, corPreenchimento)
         
+    # Cria no Model a figura que está sendo desenhada neste momento. 
     def criar_figura_atual(self, tipoFigura, coordenadas, corBorda, corPreenchimento):
-        self.model.figuraAtual = self.model.dicionarios_figuras[tipoFigura](coordenadas, corBorda, corPreenchimento)
+        self.model.figuraAtual = self.model.dicionarioFiguras[tipoFigura](coordenadas, corBorda, corPreenchimento)
 
-        
-       
         # O Controller manda a View desenhar o modelo atual:
         if self.model.figuraAtual:
             self.interface.desenhar_figura(self.model.figuraAtual)
 
+    # Atualiza a figura em construção enquanto o mouse está sendo arrastado.
     def atualizar_figura_nova(self, event):
+        # Só atualiza se já existir uma figura em processo de criação.
         if self.model.figuraAtual is not None:
             self.interface.limpar_canvas()
 
             # Redesenhando o histórico usando a View:
-            for desenho in self.desenhos:
+            for desenho in self.model.desenhos:
                 self.interface.desenhar_figura(desenho)
 
             # Atualiza o Model e renderiza pela View:
             self.model.figuraAtual.atualizar(event.x, event.y)
             self.interface.desenhar_figura(self.model.figuraAtual)
-                
+
+    # Finaliza a figura quando o botão do mouse é solto e a adiciona ao histórico permanente do Model.        
     def incluir_figura_nova(self, event):
         if self.model.figuraAtual is not None:
-            self.interface.canvas.delete("all")
+            self.interface.limpar_canvas()
 
-            for desenho in self.desenhos:
+
+            for desenho in self.model.desenhos:
                 self.interface.desenhar_figura(desenho)
             
             if self.model.figuraAtual.verificarFig():
                 self.model.figuraAtual.finalizar()
                 self.interface.desenhar_figura(self.model.figuraAtual)
-                self.desenhos.append(self.model.figuraAtual)
+                self.model.desenhos.append(self.model.figuraAtual)
 
             self.model.figuraAtual = None
     
+    # Sincroniza o estado atual com a ferramenta selecionada na View. O nome escolhido na interface é convertido na classe de estado correspondente.
+    def atualizar_estado_ferramenta(self):
+        ferramentaEscolhida = self.interface.tipoFiguraVar.get()
+        classeEstado = self.mapeamentoEstados[ferramentaEscolhida]
+        self.model.estadoAtual = classeEstado()
+
+    # Antes de iniciar o desenho, atualiza o estado conforme a ferramenta escolhida e delega o tratamento do evento ao estado atual.
+    def ao_pressionar_mouse(self, event):
+        self.atualizar_estado_ferramenta()
+        self.model.estadoAtual.pressionar(self, event)
+
+    # Delega ao estado atual o comportamento durante o arraste do mouse.
+    def ao_arrastar_mouse(self, event):
+        self.model.estadoAtual.arrastar(self, event)
+
+    # Delega ao estado atual o comportamento de finalização do desenho.
+    def ao_soltar_mouse(self, event):
+        self.model.estadoAtual.soltar(self, event)
+
+
+   
