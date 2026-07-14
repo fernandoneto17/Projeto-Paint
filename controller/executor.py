@@ -110,8 +110,12 @@ class Executor:
 
     # Antes de iniciar o desenho, atualiza o estado conforme a ferramenta escolhida e delega o tratamento do evento ao estado atual.
     def ao_pressionar_mouse(self, event):
-        self.atualizar_estado_ferramenta()
-        self.model.estadoAtual.pressionar(self, event)
+        try:
+            self.atualizar_estado_ferramenta()
+            self.model.estadoAtual.pressionar(self, event)
+        except:
+            #Caso não seja selecionada nenhuma figura:
+            messagebox.showwarning("Aviso", "Erro: Escolha uma figura para desenhar!")
 
 
     # Delega ao estado atual o comportamento durante o arraste do mouse.
