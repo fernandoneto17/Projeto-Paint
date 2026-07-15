@@ -105,3 +105,20 @@ class DesenhoModel:
             self.desenhos = pickle.load(arquivo)
             self.figuraSelecionada = None # Reseta a seleção ao abrir um novo arquivo
 
+    def limpa_selecao(self):
+        #Desmarca qualquer figura que estivesse selecionada.
+        self.figuraSelecionada = None
+
+    def selecionada(self):
+        #Retorna a figura que está selecionada no momento, ou None.
+        return self.figuraSelecionada
+
+    def seleciona(self, px, py):
+        #Percorre os desenhos de trás para a frente (para pegar a que está por cima) e seleciona a primeira que contiver o ponto clicado.
+        self.figuraSelecionada = None #Limpa antes de tentar selecionar.
+        
+        #O reversed faz com que ele olhe primeiro para a última figura desenhada
+        for figura in reversed(self.desenhos):
+            if figura.contem_ponto(px, py):
+                self.figuraSelecionada = figura
+                break #Achou a figura, para de procurar.
