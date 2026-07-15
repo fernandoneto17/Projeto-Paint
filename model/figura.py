@@ -21,3 +21,15 @@ class Figura(ABC):
     @abstractmethod
     def finalizar(self):
         pass
+
+    @abstractmethod
+    def contem_ponto(self,x,y):
+        pass
+
+    @abstractmethod
+    def mover(self, dx, dy):
+        pass    
+
+    @abstractmethod
+    def calcular_distancia(self, x1, y1, x2, y2):
+        pass   

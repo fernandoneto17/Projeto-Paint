@@ -20,3 +20,23 @@ class Elipse(Figura):
     # Finaliza a figura removendo o tracejado
     def finalizar(self):
         self.dash = ''
+
+    def contem_ponto(self, x, y):
+        x1, y1, x2, y2 = self.coordenadas
+        # Calcula o centro da elipse
+        centroX = (x1 + x2) / 2
+        centroY = (y1 + y2) / 2
+        # Calcula os raios da elipse
+        raioX = abs(x2 - x1) / 2
+        raioY = abs(y2 - y1) / 2
+        # Verifica se o ponto (x, y) está dentro da elipse usando a equação da elipse
+        return ((x - centroX) ** 2) / (raioX ** 2) + ((y - centroY) ** 2) / (raioY ** 2) <= 1
+
+    def calcular_distancia(self, x1, y1, x2, y2):
+        return ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
+
+    def mover(self, dx, dy):
+        self.coordenadas[0] += dx
+        self.coordenadas[1] += dy
+        self.coordenadas[2] += dx
+        self.coordenadas[3] += dy
