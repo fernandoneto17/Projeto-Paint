@@ -18,6 +18,7 @@ class InterfaceGrafica:
         self.corBordaVar = StringVar()
         self.corPreenchimentoVar = StringVar()
         self.tipoFiguraVar = StringVar()
+        self.tipoFiguraVar.set('Linha')
 
         #Objeto do controlador que será usado para chamar os métodos do Controller. Ele é criado aqui para que a View possa chamar os métodos do Controller.
         self.controlador = Executor(self, None )  # Passando self (InterfaceGrafica) e None (DesenhoModel) para o Executor. O DesenhoModel será passado posteriormente no Main.py.   

@@ -201,6 +201,10 @@ class Executor:
 
     #Parte da view:
     def atualiza_cor_linha(self, *args):
+        #Barreira contra um executor fantasma (criado pela view) para impedir um erro de deixar objeto sem tipo/atributo:
+        if self.model is None:
+            return
+        
         #Pegando a figura selecionada:
         figura = self.model.selecionada() 
         if figura is not None:
@@ -215,6 +219,10 @@ class Executor:
     
     #Repetindo o processo:
     def atualiza_cor_preenchimento(self, *args):
+        #Barreira contra um executor fantasma (criado pela view) para impedir um erro de deixar objeto sem tipo/atributo:
+        if self.model is None:
+            return 
+        
         figura = self.model.selecionada() 
         if figura is not None:
             nomeCorPT = self.interface.corPreenchimentoVar.get()
