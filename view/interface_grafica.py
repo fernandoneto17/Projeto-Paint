@@ -14,6 +14,11 @@ class InterfaceGrafica:
         self.canvas = Canvas(self.frame, bg='white', width=1280, height=720)
         self.canvas.pack()
 
+        #Criando as variáveis especiais que guardam a escolha do usuário:
+        self.corBordaVar = StringVar()
+        self.corPreenchimentoVar = StringVar()
+        self.tipoFiguraVar = StringVar()
+
         #Objeto do controlador que será usado para chamar os métodos do Controller. Ele é criado aqui para que a View possa chamar os métodos do Controller.
         self.controlador = Executor(self, None )  # Passando self (InterfaceGrafica) e None (DesenhoModel) para o Executor. O DesenhoModel será passado posteriormente no Main.py.   
 
@@ -115,10 +120,6 @@ class InterfaceGrafica:
 
 
 
-        #Criando as variáveis especiais que guardam a escolha do usuário:
-        self.corBordaVar = StringVar()
-        self.corPreenchimentoVar = StringVar()
-        self.tipoFiguraVar = StringVar()
 
 
         #Dicionário do espaçamento (margens) dos elementos, feito inicialmente por Khalil.

@@ -168,10 +168,8 @@ class Executor:
     #Função auxiliar para limpar e redesenhar tudo rapidamente(similar a redesenhar_tudo da classe estadoSelecionar):
     def atualizar_tela(self):
         self.interface.limpar_canvas()
-        figuraSelecionada = self.model.selecionada()
         for desenho in self.model.desenhos:
-            eh_a_mesma_figura = (desenho == figuraSelecionada) #O desenho == figuraSelecionada retorna um booleano devido ao ==.
-            self.interface.desenhar_figura(desenho, selecionada= eh_a_mesma_figura)
+            self.interface.desenhar_figura(desenho)
 
     def apagar_figura(self, event):
         #Chama a função de apagar do model e atualiza a tela
@@ -187,21 +185,19 @@ class Executor:
         self.model.colar()
         self.atualizar_tela()
 
-    def mover_para_frente(self, event):
-        self.model.selecionada_para_frente()
+    def mover_para_frente(self, event=None):
+        self.model.subir_uma_camada()
         self.atualizar_tela()
 
-    def mover_para_tras(self, event):
-        self.model.selecionada_para_tras()
+    def mover_para_tras(self, event=None):
+        self.model.abaixar_uma_camada()
         self.atualizar_tela()
 
-    def mover_para_topo(self, event):
-        self.model.selecionada_para_topo()
-        self.atualizar_tela()
+    def mover_para_topo(self, event=None):
+        self.mover_para_frente()
 
-    def mover_para_fundo(self, event):
-        self.model.selecionada_para_fundo()
-        self.atualizar_tela()
+    def mover_para_fundo(self, event=None):
+        self.mover_para_tras()
 
     #Parte da view:
     def atualiza_cor_linha(self, *args):
