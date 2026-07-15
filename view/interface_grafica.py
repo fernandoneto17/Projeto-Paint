@@ -70,7 +70,7 @@ class InterfaceGrafica:
         self.botaoAbrir = Button(self.frameBotoes, text="Abrir", command=lambda: self.controlador.abrir_desenho())
         self.botaoAbrir.grid(row=0, column=len(self.figuraImagem) + 3, padx=10, pady=3)
 
-        self.botaoLimpar = Button(self.frameBotoes, text="Limpar", command=lambda: self.limpar_canvas())
+        self.botaoLimpar = Button(self.frameBotoes, text="Limpar", command=lambda: self.controlador.apagar_tudo())
         self.botaoLimpar.grid(row=0, column=len(self.figuraImagem) + 4, padx=10, pady=3)
 
         self.selecionarFigura = Button(self.frameBotoes, text="Selecionar figura", command=lambda: self.controlador.selecionar_figura())

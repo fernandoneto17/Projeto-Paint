@@ -144,6 +144,10 @@ class Executor:
         except Exception as erro:
             messagebox.showerror("Erro", f"Não foi possível abrir o desenho.\n{erro}")
    
-
+    def apagar_tudo(self):
+        # Limpa a lista de desenhos no Model
+        self.model.desenhos.clear()
+        self.model.figuraSelecionada = None  # Reseta a figura selecionada
+        self.interface.limpar_canvas()  # Limpa o canvas na View
 
 
