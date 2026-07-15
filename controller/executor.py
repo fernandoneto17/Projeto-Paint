@@ -5,6 +5,7 @@ from .estados.estadoElipse import EstadoElipse
 from .estados.estadoRetangulo import EstadoRetangulo
 from .estados.estadoQuadrado import EstadoQuadrado
 from tkinter import messagebox
+from .estados.estadoSelecionar import EstadoSelecionar
 
 
 class Executor:
@@ -23,6 +24,7 @@ class Executor:
         'Elipse': EstadoElipse,
         'Retangulo': EstadoRetangulo,
         'Quadrado': EstadoQuadrado,
+        'Selecionar': EstadoSelecionar,
     }
         #Cria botões de salvar e abrir arquivos
         self.interface.botaoSalvar.config(command=self.salvar_desenho)
