@@ -11,6 +11,7 @@ class Executor:
     def __init__(self, interface, model):
         self.interface = interface
         self.model = model
+        self.interface.controlador = self  # Passa a referência do Executor para a InterfaceGrafica, permitindo que a View chame os métodos do Controller.
         self.xInicial = 0
         self.yInicial = 0
 

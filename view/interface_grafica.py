@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import filedialog, messagebox
+from controller.executor import Executor
 import os
 
 
@@ -9,6 +10,12 @@ class InterfaceGrafica:
         self.root = root
         self.frame = Frame(root)
 
+        #Criando onde desenha:
+        self.canvas = Canvas(self.frame, bg='white', width=1280, height=720)
+        self.canvas.pack()
+
+        #Objeto do controlador que será usado para chamar os métodos do Controller. Ele é criado aqui para que a View possa chamar os métodos do Controller.
+        self.controlador = Executor(self, None )  # Passando self (InterfaceGrafica) e None (DesenhoModel) para o Executor. O DesenhoModel será passado posteriormente no Main.py.   
 
         pastaView = os.path.dirname(os.path.abspath(__file__))  # Obtém o diretório do arquivo atual
         pastaProjeto = os.path.dirname(pastaView)  # Obtém o diretório pai (projeto)
@@ -22,14 +29,17 @@ class InterfaceGrafica:
                             'Vermelho': 'red',
                             'Verde': 'green',
                             'Branco': 'white',
-
+                            'Rosa': 'pink',
+                            'Laranja': 'orange',
+                            'Roxo': 'purple',
+                            'Cinza': 'gray',
 
                             }
 
 
         self.figuraImagem = [
         ('Linha', 'linha.png'),
-        ('Rabisco', 'curva.png'),
+        ('Rabisco', 'rabisco.png'),
         ('Retangulo', 'retangulo.png'),
         ('Circulo', 'circulo.png'),
         ('Elipse', 'elipse.png'),
@@ -51,17 +61,20 @@ class InterfaceGrafica:
                 command=lambda n=nome: self.tipoFiguraVar.set(n)
             )
             botao.image = imagem
-            botao.grid(column=i + 1, row=0, padx=2, pady=2, sticky=W)
+            botao.grid(column=i + 1, row=0, padx=5, pady=5, sticky=W)
 
+        
+        self.botaoSalvar = Button(self.frameBotoes, text="Salvar", command=lambda: self.controlador.salvar_desenho())
+        self.botaoSalvar.grid(row=0, column=len(self.figuraImagem) + 2, padx=10, pady=3)
 
-        self.botaoSalvar = Button(self.frameBotoes, text="Salvar")
-        self.botaoSalvar.grid(row=0, column=len(self.figuraImagem) + 2, padx=10, pady=5)
+        self.botaoAbrir = Button(self.frameBotoes, text="Abrir", command=lambda: self.controlador.abrir_desenho())
+        self.botaoAbrir.grid(row=0, column=len(self.figuraImagem) + 3, padx=10, pady=3)
 
+        self.botaoLimpar = Button(self.frameBotoes, text="Limpar", command=lambda: self.limpar_canvas())
+        self.botaoLimpar.grid(row=0, column=len(self.figuraImagem) + 4, padx=10, pady=3)
 
-        self.botaoAbrir = Button(self.frameBotoes, text="Abrir")
-        self.botaoAbrir.grid(row=0, column=len(self.figuraImagem) + 3, padx=10, pady=5)
-
-
+        self.selecionarFigura = Button(self.frameBotoes, text="Selecionar figura", command=lambda: self.controlador.selecionar_figura())
+        self.selecionarFigura.grid(row=0, column=len(self.figuraImagem) + 5, padx=10, pady=3, sticky="w")
 
 
         #Criando os botões de cores da borda, que ficarão acima do canvas:
@@ -75,7 +88,7 @@ class InterfaceGrafica:
             Button(
                 self.frameCoresBorda,
                 bg=corbg,
-                width=4,
+                width=1,
                 height=1,
                 command=lambda cor=nomeCor: self.corBordaVar.set(cor)
             ).grid(row=1, column=i + 1, padx=3, pady=3)
@@ -94,7 +107,7 @@ class InterfaceGrafica:
             Button(
                 self.frameCoresFill,
                 bg=corBg,
-                width=4,
+                width=1,
                 height=1,
                 command=lambda cor=nomeCorFIll: self.corPreenchimentoVar.set(cor)
             ).grid(row=2, column=i + 1, padx=3, pady=3)
@@ -112,8 +125,7 @@ class InterfaceGrafica:
         self.paddings = {'padx': 5, 'pady': 5}
 
 
-        #Criando onde desenha:
-        self.canvas = Canvas(self.frame, bg='white', width=1280, height=720)
+        
 
 
        
