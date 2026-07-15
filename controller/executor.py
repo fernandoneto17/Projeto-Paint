@@ -32,6 +32,20 @@ class Executor:
         self.interface.canvas.bind('<B1-Motion>', self.ao_arrastar_mouse)
         self.interface.canvas.bind('<ButtonRelease-1>', self.ao_soltar_mouse)
 
+        # Atalhos de teclado para a ferramenta de Seleção:
+        self.interface.root.bind("<Delete>", self.apagar_figura)
+        self.interface.root.bind("<Control-c>", self.copiar_figura)
+        self.interface.root.bind("<Control-v>", self.colar_figura)
+        # As 4 direções para controlar as camadas:
+        self.interface.root.bind("<Up>", self.mover_para_topo)
+        self.interface.root.bind("<Down>", self.mover_para_fundo)
+        self.interface.root.bind("<Right>", self.mover_para_frente)
+        self.interface.root.bind("<Left>", self.mover_para_tras)
+
+        #Sempre que a variável de cor da View mudar (write), chamamos as funções de atualizar:
+        self.interface.corBordaVar.trace_add('write', self.atualiza_cor_linha)
+        self.interface.corPreenchimentoVar.trace_add('write', self.atualiza_cor_preenchimento)
+
     # Inicia a criação da figura atual a partir do ponto em que o mouse foi pressionado.
     def iniciar_figura_nova(self, event): 
         self.xInicial = event.x
@@ -144,6 +158,71 @@ class Executor:
         except Exception as erro:
             messagebox.showerror("Erro", f"Não foi possível abrir o desenho.\n{erro}")
    
+    #Função auxiliar para limpar e redesenhar tudo rapidamente(similar a redesenhar_tudo da classe estadoSelecionar):
+    def atualizar_tela(self):
+        self.interface.limpar_canvas()
+        figuraSelecionada = self.model.selecionada()
+        for desenho in self.model.desenhos:
+            eh_a_mesma_figura = (desenho == figuraSelecionada) #O desenho == figuraSelecionada retorna um booleano devido ao ==.
+            self.interface.desenhar_figura(desenho, selecionada= eh_a_mesma_figura)
 
+    def apagar_figura(self, event):
+        #Chama a função de apagar do model e atualiza a tela
+        self.model.apaga_selecionada()
+        self.atualizar_tela()
 
+    def copiar_figura(self, event):
+        #Chama a função de copiar do model e obviamente não precisa atualizar a tela, pois estamos copiando apenas.
+        self.model.copiar_selecionada()
 
+    #Repetindo o processo de chamar a função do model e atualizar a tela:
+    def colar_figura(self, event):
+        self.model.colar()
+        self.atualizar_tela()
+
+    def mover_para_frente(self, event):
+        self.model.selecionada_para_frente()
+        self.atualizar_tela()
+
+    def mover_para_tras(self, event):
+        self.model.selecionada_para_tras()
+        self.atualizar_tela()
+
+    def mover_para_topo(self, event):
+        self.model.selecionada_para_topo()
+        self.atualizar_tela()
+
+    def mover_para_fundo(self, event):
+        self.model.selecionada_para_fundo()
+        self.atualizar_tela()
+
+    #Parte da view:
+    def atualiza_cor_linha(self, *args):
+        #Pegando a figura selecionada:
+        figura = self.model.selecionada() 
+        if figura is not None:
+            #Pegando o nome em português (ex: "Preto"):
+            nomeCorPT = self.interface.corBordaVar.get()
+            #Traduzindo para inglês usando o dicionário da View (ex: "black"):
+            corIngles = self.interface.cores.get(nomeCorPT)
+            
+            #Atualizando a figura e redesenhando a tela:
+            figura.corBorda = corIngles
+            self.atualizar_tela()
+    
+    #Repetindo o processo:
+    def atualiza_cor_preenchimento(self, *args):
+        figura = self.model.selecionada() 
+        if figura is not None:
+            nomeCorPT = self.interface.corPreenchimentoVar.get()
+            corIngles = self.interface.cores.get(nomeCorPT)
+            
+            figura.corPreenchimento = corIngles
+            self.atualizar_tela()
+
+    #Criação do método selecionarFigura para a view:
+    def selecionar_figura(self):
+        #Mudando a ferramenta ativa para 'Selecionar':
+        self.interface.tipoFiguraVar.set('Selecionar')
+        #Atualizando o Estado atual para o EstadoSelecionar:
+        self.atualizar_estado_ferramenta()
