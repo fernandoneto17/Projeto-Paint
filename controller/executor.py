@@ -12,9 +12,9 @@ class Executor:
     def __init__(self, interface, model):
         self.interface = interface
         self.model = model
+        self.interface.controlador = self  # Passa a referência do Executor para a InterfaceGrafica, permitindo que a View chame os métodos do Controller.
         self.xInicial = 0
         self.yInicial = 0
-
 
         # Tabela de mapeamento entre o nome escolhido na interface e a classe de estado correspondente. Isso permite trocar de ferramenta sem usar if/elif.
         self.mapeamentoEstados = {
@@ -26,46 +26,35 @@ class Executor:
         'Quadrado': EstadoQuadrado,
         'Selecionar': EstadoSelecionar,
     }
-        #Cria botões de salvar e abrir arquivos
-        self.interface.botaoSalvar.config(command=self.salvar_desenho)
-        self.interface.botaoAbrir.config(command=self.abrir_desenho)
-
-
+        
         # Associa os eventos do mouse que ocorrem no canvas da View aos métodos de tratamento definidos no Controller.
         self.interface.canvas.bind('<ButtonPress-1>', self.ao_pressionar_mouse)
         self.interface.canvas.bind('<B1-Motion>', self.ao_arrastar_mouse)
         self.interface.canvas.bind('<ButtonRelease-1>', self.ao_soltar_mouse)
 
-
     # Inicia a criação da figura atual a partir do ponto em que o mouse foi pressionado.
-    def iniciar_figura_nova(self, event):
+    def iniciar_figura_nova(self, event): 
         self.xInicial = event.x
         self.yInicial = event.y
-
 
         corBorda = self.interface.cores.get(self.interface.corBordaVar.get())
         corPreenchimento = self.interface.cores.get(self.interface.corPreenchimentoVar.get())
 
-
         coordenadas = [self.xInicial, self.yInicial, self.xInicial, self.yInicial]
-
 
         # O tipo da figura vem do estado atual. Isso evita condicionais e faz o comportamento depender do objeto de estado.
         tipoFigura = self.model.estadoAtual.tipoFigura
 
-
         # Solicita a criação da figura atual no Model com base no tipo informado pelo estado ativo e nos dados coletados da View.
         self.criar_figura_atual(tipoFigura, coordenadas, corBorda, corPreenchimento)
-       
-    # Cria no Model a figura que está sendo desenhada neste momento.
+        
+    # Cria no Model a figura que está sendo desenhada neste momento. 
     def criar_figura_atual(self, tipoFigura, coordenadas, corBorda, corPreenchimento):
         self.model.figuraAtual = self.model.dicionarioFiguras[tipoFigura](coordenadas, corBorda, corPreenchimento)
-
 
         # O Controller manda a View desenhar o modelo atual:
         if self.model.figuraAtual:
             self.interface.desenhar_figura(self.model.figuraAtual)
-
 
     # Atualiza a figura em construção enquanto o mouse está sendo arrastado.
     def atualizar_figura_nova(self, event):
@@ -83,13 +72,10 @@ class Executor:
             self.model.figuraAtual.atualizar(event.x, event.y)
             self.interface.desenhar_figura(self.model.figuraAtual)
 
-
     # Finaliza a figura quando o botão do mouse é solto e a adiciona ao histórico permanente do Model.        
     def incluir_figura_nova(self, event):
         if self.model.figuraAtual is not None:
             self.interface.limpar_canvas()
-
-
 
 
             for desenho in self.model.desenhos:
@@ -100,30 +86,22 @@ class Executor:
                 self.interface.desenhar_figura(self.model.figuraAtual)
                 self.model.desenhos.append(self.model.figuraAtual)
 
-
             self.model.figuraAtual = None
-   
+    
     # Sincroniza o estado atual com a ferramenta selecionada na View. O nome escolhido na interface é convertido na classe de estado correspondente.
     def atualizar_estado_ferramenta(self):
         ferramentaEscolhida = self.interface.tipoFiguraVar.get()
         classeEstado = self.mapeamentoEstados[ferramentaEscolhida]
         self.model.estadoAtual = classeEstado()
 
-
     # Antes de iniciar o desenho, atualiza o estado conforme a ferramenta escolhida e delega o tratamento do evento ao estado atual.
     def ao_pressionar_mouse(self, event):
-        try:
-            self.atualizar_estado_ferramenta()
-            self.model.estadoAtual.pressionar(self, event)
-        except:
-            #Caso não seja selecionada nenhuma figura:
-            messagebox.showwarning("Aviso", "Erro: Escolha uma figura para desenhar!")
-
+        self.atualizar_estado_ferramenta()
+        self.model.estadoAtual.pressionar(self, event)
 
     # Delega ao estado atual o comportamento durante o arraste do mouse.
     def ao_arrastar_mouse(self, event):
         self.model.estadoAtual.arrastar(self, event)
-
 
     # Delega ao estado atual o comportamento de finalização do desenho.
     def ao_soltar_mouse(self, event):
