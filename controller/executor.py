@@ -173,7 +173,7 @@ class Executor:
 
     def apagar_figura(self, event):
         #Chama a função de apagar do model e atualiza a tela
-        self.model.apaga_selecionada()
+        self.model.apagar_selecionada()
         self.atualizar_tela()
 
     def copiar_figura(self, event):
