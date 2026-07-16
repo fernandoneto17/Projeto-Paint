@@ -48,7 +48,7 @@ class InterfaceGrafica:
                             'Verde Limão': '#32CD32',
                             'Rosa Choque': '#FF69B4',
                             'Azul Claro': '#ADD8E6',
-                            'Amarelo Claro': '#FFFFE0',
+                            'Vermelho escuro': '#700000',
                             }
 
 
