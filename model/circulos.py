@@ -35,3 +35,18 @@ class Circulo(Figura):
     # Metodo para tirar o tracejado no desenho
     def finalizar(self):
         self.dash = ''
+
+    def contem_ponto(self, x, y): 
+        # Verifica se o ponto (x, y) está dentro do círculo usando a equação do círculo
+        return (x - self.ini_x) ** 2 + (y - self.ini_y) ** 2 <= self.raio ** 2
+    
+    def calcular_distancia(self, x1, y1, x2, y2):
+        return ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
+    
+    def mover(self, dx, dy):
+        self.ini_x += dx
+        self.ini_y += dy
+        self.fim_x += dx
+        self.fim_y += dy
+        # Atualiza as coordenadas do círculo após o movimento, da mesma maneira que definimos as coordenadas na linha 25
+        self.coordenadas = [self.ini_x - self.raio, self.ini_y - self.raio, self.ini_x + self.raio, self.ini_y + self.raio]
