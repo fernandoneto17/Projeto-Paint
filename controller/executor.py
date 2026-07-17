@@ -201,10 +201,12 @@ class Executor:
         self.atualizar_tela()
 
     def mover_para_topo(self, event=None):
-        self.mover_para_frente()
+        self.model.trazer_para_topo()
+        self.atualizar_tela()
 
     def mover_para_fundo(self, event=None):
-        self.mover_para_tras()
+        self.model.enviar_para_fundo()
+        self.atualizar_tela()
 
     #Parte da view:
     def atualiza_cor_linha(self, *args):
