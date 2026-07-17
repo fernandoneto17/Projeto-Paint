@@ -18,6 +18,8 @@ class InterfaceGrafica:
         self.corPreenchimentoVar = StringVar()
         self.tipoFiguraVar = StringVar()
         self.tipoFiguraVar.set('Linha')
+        self.corBordaVar.set('Preto')
+        self.corPreenchimentoVar.set('Branco')
 
         #Objeto do controlador que será usado para chamar os métodos do Controller. Ele é criado aqui para que a View possa chamar os métodos do Controller.
         self.controlador = Executor(self, None )  # Passando self (InterfaceGrafica) e None (DesenhoModel) para o Executor. O DesenhoModel será passado posteriormente no Main.py.   
@@ -28,12 +30,12 @@ class InterfaceGrafica:
 
         #Criando o dicionário das cores, assim como foi feito no hiperativo:
         self.cores = {
+                            'Branco': 'white',
                             'Preto': 'black',
                             'Azul': 'blue',
                             'Amarelo': 'yellow',
                             'Vermelho': 'red',
                             'Verde': 'green',
-                            'Branco': 'white',
                             'Rosa': 'pink',
                             'Laranja': 'orange',
                             'Roxo': 'purple',
@@ -48,7 +50,7 @@ class InterfaceGrafica:
                             'Verde Limão': '#32CD32',
                             'Rosa Choque': '#FF69B4',
                             'Azul Claro': '#ADD8E6',
-                            'Amarelo Claro': '#FFFFE0',
+                            'Vermelho Escuro': "#5C0000",
                             }
 
 
@@ -58,7 +60,11 @@ class InterfaceGrafica:
         ('Retangulo', 'retangulo.png'),
         ('Circulo', 'circulo.png'),
         ('Elipse', 'elipse.png'),
-        ('Quadrado','quadrado.png')
+        ('Quadrado','quadrado.png'),
+        ('Triangulo','triangulo.png'),
+        ('Losango','losango.png'),
+        ('Pentagono','pentagono.png'),
+        ('Hexagono','hexagono.png')
         ]
 
 
@@ -237,7 +243,9 @@ class InterfaceGrafica:
         if tipo == 'Linha' or tipo == 'Rabisco':
             self.canvas.create_line(figura.coordenadas, smooth=True,        # <-- Ativa a suavização
                 splinesteps=36, fill=figura.corBorda, dash=figura.dash)
-           
+        elif tipo == 'Triangulo' or tipo == 'Losango' or tipo == 'Pentagono' or tipo == 'Hexagono':
+            self.canvas.create_polygon(*figura.coordenadas,outline=figura.corBorda,fill=figura.corPreenchimento,dash=figura.dash,width=2)
+
         elif tipo == 'Retangulo' or tipo == 'Quadrado':
             self.canvas.create_rectangle(*figura.coordenadas, outline=figura.corBorda, fill=figura.corPreenchimento, dash=figura.dash)
            

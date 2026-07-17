@@ -2,6 +2,7 @@ from .estadosFerramentas import EstadoFerramenta
 
 class EstadoSelecionar(EstadoFerramenta) :
     def __init__(self):
+        tipoFigura = 'Selecionar'
         #Inicializa as variáveis para guardar a posição do último clique
         self.ult_x = 0
         self.ult_y = 0
@@ -12,7 +13,7 @@ class EstadoSelecionar(EstadoFerramenta) :
 
         #Acessando o Model através do controller:
         controller.model.limpa_selecao()
-        controller.model.seleciona(event.x, event.y)
+        controller.model.selecionar_figura_pelo_clique(event.x, event.y)
 
         #Redesenhando a tela:
         self.redesenhar_tudo(controller)
@@ -41,7 +42,7 @@ class EstadoSelecionar(EstadoFerramenta) :
     def redesenhar_tudo(self, controller):
         #Limpa a tela usando a View (interface):
         controller.interface.limpar_canvas()
-        
+    
         #Percorre o histórico de desenhos do Model e manda a View desenhar cada um:
         for desenho in controller.model.desenhos:
             controller.interface.desenhar_figura(desenho)

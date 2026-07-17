@@ -4,6 +4,10 @@ from .estados.estadoCirculo import EstadoCirculo
 from .estados.estadoElipse import EstadoElipse
 from .estados.estadoRetangulo import EstadoRetangulo
 from .estados.estadoQuadrado import EstadoQuadrado
+from .estados.estadoTriangulo import EstadoTriangulo
+from .estados.estadoLosango import EstadoLosango
+from .estados.estadoPentagono import EstadoPentagono
+from .estados.estadoHexagono import EstadoHexagono
 from tkinter import messagebox
 from .estados.estadoSelecionar import EstadoSelecionar
 
@@ -24,6 +28,10 @@ class Executor:
         'Elipse': EstadoElipse,
         'Retangulo': EstadoRetangulo,
         'Quadrado': EstadoQuadrado,
+        'Triangulo': EstadoTriangulo,
+        'Losango': EstadoLosango,
+        'Pentagono': EstadoPentagono,
+        'Hexagono': EstadoHexagono,
         'Selecionar': EstadoSelecionar,
     }
         
@@ -64,11 +72,9 @@ class Executor:
         
     # Cria no Model a figura que está sendo desenhada neste momento. 
     def criar_figura_atual(self, tipoFigura, coordenadas, corBorda, corPreenchimento):
-        self.model.figuraAtual = self.model.dicionarioFiguras[tipoFigura](coordenadas, corBorda, corPreenchimento)
-
-        # O Controller manda a View desenhar o modelo atual:
-        if self.model.figuraAtual:
-            self.interface.desenhar_figura(self.model.figuraAtual)
+        self.model.figuraAtual = self.model.dicionarioFiguras[tipoFigura](
+            coordenadas, corBorda, corPreenchimento
+    )
 
     # Atualiza a figura em construção enquanto o mouse está sendo arrastado.
     def atualizar_figura_nova(self, event):
@@ -91,10 +97,11 @@ class Executor:
         if self.model.figuraAtual is not None:
             self.interface.limpar_canvas()
 
-
             for desenho in self.model.desenhos:
                 self.interface.desenhar_figura(desenho)
-           
+
+            self.model.figuraAtual.atualizar(event.x, event.y)
+
             if self.model.figuraAtual.verificarFig():
                 self.model.figuraAtual.finalizar()
                 self.interface.desenhar_figura(self.model.figuraAtual)
@@ -173,7 +180,7 @@ class Executor:
 
     def apagar_figura(self, event):
         #Chama a função de apagar do model e atualiza a tela
-        self.model.apaga_selecionada()
+        self.model.apagar_selecionada()
         self.atualizar_tela()
 
     def copiar_figura(self, event):
